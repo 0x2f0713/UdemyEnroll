@@ -1,0 +1,86 @@
+{
+    "purchase": {
+        "data": {
+            "is_in_subscription": false,
+            "purchase_date": "You purchased this course on December 25, 2019",
+            "course_id": 408526,
+            "pricing_result": {
+                "discount_percent_for_display": 100,
+                "campaign": null,
+                "has_discount_saving": false,
+                "is_public": null,
+                "code": null,
+                "buyable": {
+                    "id": 408526,
+                    "type": "course"
+                },
+                "discount_percent": 100,
+                "price": {
+                    "currency_symbol": "$",
+                    "price_string": "Free",
+                    "amount": 0.0,
+                    "currency": "USD"
+                },
+                "saving_price": {
+                    "currency_symbol": "$",
+                    "price_string": "Free",
+                    "amount": 0.0,
+                    "currency": "USD"
+                },
+                "list_price": {
+                    "currency_symbol": "$",
+                    "price_string": "Free",
+                    "amount": 0.0,
+                    "currency": "USD"
+                }
+            },
+            "show_discount_info": true,
+            "is_valid_student": true,
+            "list_price": {
+                "currency_symbol": "$",
+                "price_string": "Free",
+                "amount": 0.0,
+                "currency": "USD"
+            }
+        }
+    },
+    "introduction_asset": {
+        "course_preview_path": "/course/408526/preview/?startPreviewId=2815912",
+        "images": {
+            "image_240x135": "https://i.udemycdn.com/course/240x135/408526_ec3b_7.jpg",
+            "image_480x270": "https://i.udemycdn.com/course/480x270/408526_ec3b_7.jpg"
+        },
+        "has_video_asset": true
+    },
+    "buy_button": {
+        "button": {
+            "is_free_with_discount": false,
+            "payment_data": {
+                "buyableContext": {
+                    "contentLocaleId": null
+                },
+                "discountInfo": {
+                    "code": ""
+                },
+                "buyableType": "course",
+                "buyableId": 408526,
+                "purchasePrice": {
+                    "currency_symbol": "$",
+                    "price_string": "Free",
+                    "amount": 0.0,
+                    "currency": "USD"
+                }
+            },
+            "style": "secondary",
+            "text": "Go to course",
+            "require_popup": false,
+            "base_express_checkout": "/cart/checkout/express/course/408526/",
+            "buy_url": "/course/construct2ar/learn/?components=buy_button%2Cintroduction_asset%2Cpurchase",
+            "add_to_cart_redirect_url": "/cart/added/course/408526/",
+            "size": "large",
+            "preview_url": "javascript:void(0)",
+            "icon": null,
+            "enrollment_disabled": false
+        }
+    }
+}

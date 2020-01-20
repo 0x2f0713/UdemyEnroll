@@ -1,0 +1,157 @@
+from Udemy import Udemy
+import requests
+import threading
+import queue
+import re
+import sys
+import urllib.parse as parse
+import random
+import time
+
+
+CoursesQueue = queue.Queue(maxsize=0)
+User = Udemy('namhaiha0308@gmail.com', 'qweqwerrr123456789')
+
+
+class EnrollThreading(threading.Thread):
+    def __init__(self, queue, user):
+        threading.Thread.__init__(self)
+        self.queue = queue
+        self.Udemy = user
+        self.end = 10
+
+    def writeProgress(self):
+        sys.stdout.write("\rFound: {size} {noun}".format(
+            size=self.queue.qsize(), noun="course" if self.queue.qsize() < 2 else "courses"))
+        sys.stdout.flush()
+
+    def addCourse(self, url):
+        ParseResult = parse.urlparse(url)
+
+        coupon_code = ParseResult.query.lstrip('couponCode=')
+        published_title = ParseResult.path.strip('/')
+
+        CourseInfo = self.Udemy.getCourseInfo(published_title)
+
+        if CourseInfo['status_code'] == 200:
+            data = CourseInfo['data']
+            id = data['id']
+            title = data['title']
+            PurchaseInfo = self.Udemy.getCoursePurchaseInfo(id,coupon_code)['data']
+            if PurchaseInfo['purchase']['data']['purchase_date'] is None:
+                if data['is_paid'] and PurchaseInfo['purchase']['data']['pricing_result']['price']['amount'] == 0:
+                    self.queue.put(dict(published_title=published_title, title=title, id=id, coupon_code=coupon_code))
+                elif not data['is_paid']:
+                    self.queue.put(dict(published_title=published_title, title=title, id=id, coupon_code=''))
+
+
+class discudemy(EnrollThreading):
+    def __init__(self, queue, user):
+        EnrollThreading.__init__(self, queue, user)
+
+    def run(self):
+        def scanPage(self,i):
+            HTML = requests.get(
+                'https://www.discudemy.com/all/{number}'.format(number=i), allow_redirects=True)
+            # print("%s: %i" % (self.name, i))
+            URLS = re.findall(
+                r'<a class="card-header" href="((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[discudemy]*\.[a-z]{2,5}?(\/.*)?)">', HTML.text)
+            if len(URLS) == 0:
+                print("freebiesglobal_com error")
+            for x in range(0, 15):
+                endpoint = URLS[x][2].strip('/').split('/')
+                if endpoint[0] == 'giveaway':
+                    continue
+                info = requests.get(
+                    'https://www.discudemy.com/go/{published_title}'.format(published_title=endpoint[1])).text
+                url = re.search(
+                    r'(https):\/\/(www\.udemy)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?', info)[0].replace('/course/', '/')
+                self.addCourse(url)
+                self.writeProgress()
+
+        for i in range(1, self.end):
+            t_page = threading.Thread(target=scanPage,args=(self,i,))
+            t_page.start()
+            t_page.join()
+
+
+
+class udemycoupon_learnviral_com(EnrollThreading):
+    def __init__(self, queue, user):
+        EnrollThreading.__init__(self, queue, user)
+
+    def run(self):
+        def scanPage(self,i):
+            HTML = requests.get(
+                'https://udemycoupon.learnviral.com/coupon-category/free100-discount/page/{number}'.format(number=i), allow_redirects=True,headers={
+                    'user-agent':"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3800.0 Safari/537.36 Edg/76.0.167.1"
+                })
+            URLS = re.findall(r'(https://www\.udemy\.com.*)(" id)', HTML.text)
+            if len(URLS) == 0:
+                print("freebiesglobal_com error")
+            for url in URLS:
+                self.addCourse(url[0].replace('/course/', '/'))
+                self.writeProgress()
+        for i in range(0, self.end):
+            t_page = threading.Thread(target=scanPage,args=(self,i,))
+            t_page.start()
+            t_page.join()
+
+
+class freebiesglobal_com(EnrollThreading):
+    def __init__(self, queue, user):
+        EnrollThreading.__init__(self, queue, user)
+
+    def run(self):
+        def scanPage(self,i):
+            HTML = requests.get(
+                'https://freebiesglobal.com/dealstore/udemy/page/{number}'.format(number=i), allow_redirects=True)
+            # print("%s: %i" % (self.name, i))
+            URLS = re.findall(
+                r'<a class="img-centered-flex rh-flex-center-align rh-flex-justify-center" href="(https:\/\/freebiesglobal\.com\/[\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])', HTML.text)
+            if len(URLS) == 0:
+                print("freebiesglobal_com error")
+            for x in URLS:
+                info = requests.get(x).text
+                url = re.search(
+                    r'(https):\/\/(www\.udemy)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?', info)
+                if url is not None:
+                    url = url[0].replace('/course/', '/')
+                    self.addCourse(url)
+                    self.writeProgress()
+
+        for i in range(1, self.end):
+            t_page = threading.Thread(target=scanPage,args=(self,i,))
+            t_page.start()
+            t_page.join()
+
+
+Thread_Discudemy = discudemy(CoursesQueue, User)
+Thread_Discudemy.start()
+Thread_udemycoupon_learnviral_com = udemycoupon_learnviral_com(CoursesQueue,User)
+Thread_udemycoupon_learnviral_com.start()
+Thread_freebiesglobal_com = freebiesglobal_com(CoursesQueue, User)
+Thread_freebiesglobal_com.start()
+
+Thread_Discudemy.join()
+Thread_udemycoupon_learnviral_com.join()
+Thread_freebiesglobal_com.join()
+print("Scanning done!")
+while not CoursesQueue.empty():
+    Course = CoursesQueue.get()
+    if User.getCoursePurchaseInfo(Course['id'])['data']['purchase']['data']['purchase_date'] is None:
+        if Course['coupon_code'] == '':
+            Enrollment = User.enrollFreeCourse(Course['id'])
+        else:
+            Enrollment = User.enrollPaidCourseWithCoupon(Course['id'], Course['coupon_code'])
+        if Enrollment['success']:
+            print(f"Enrolled: {Course['title']}. ID: {Course['id']}. Task left: {CoursesQueue.qsize()}")
+            for x in range(1, random.randint(10, 20)):
+                sys.stdout.write("\rPausing: %s" % str(x))
+                sys.stdout.flush()
+                time.sleep(1)
+            print()
+        else:
+            print(Enrollment)
+    else:
+        print(f"The '{Course['title']}' has been already enrolled. ID: {Course['id']}. Task left: {CoursesQueue.qsize()}")
