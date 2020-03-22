@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from Udemy import Udemy
 import requests
 import threading
@@ -18,7 +19,8 @@ class EnrollThreading(threading.Thread):
         threading.Thread.__init__(self)
         self.queue = queue
         self.Udemy = user
-        self.end = 10
+        self.begin = 1
+        self.end = 2
 
     def writeProgress(self):
         sys.stdout.write("\rFound: {size} {noun}".format(
@@ -69,7 +71,7 @@ class discudemy(EnrollThreading):
                 self.addCourse(url)
                 self.writeProgress()
 
-        for i in range(1, self.end):
+        for i in range(self.begin, self.end):
             t_page = threading.Thread(target=scanPage,args=(self,i,))
             t_page.start()
             t_page.join()
@@ -92,7 +94,7 @@ class udemycoupon_learnviral_com(EnrollThreading):
             for url in URLS:
                 self.addCourse(url[0].replace('/course/', '/'))
                 self.writeProgress()
-        for i in range(0, self.end):
+        for i in range(self.begin - 1, self.end):
             t_page = threading.Thread(target=scanPage,args=(self,i,))
             t_page.start()
             t_page.join()
@@ -110,6 +112,7 @@ class freebiesglobal_com(EnrollThreading):
             URLS = re.findall(
                 r'<a class="img-centered-flex rh-flex-center-align rh-flex-justify-center" href="(https:\/\/freebiesglobal\.com\/[\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])', HTML.text)
             if len(URLS) == 0:
+                print(HTML)
                 print("freebiesglobal_com error")
             for x in URLS:
                 info = requests.get(x).text
@@ -120,7 +123,7 @@ class freebiesglobal_com(EnrollThreading):
                     self.addCourse(url)
                     self.writeProgress()
 
-        for i in range(1, self.end):
+        for i in range(self.begin, self.end):
             t_page = threading.Thread(target=scanPage,args=(self,i,))
             t_page.start()
             t_page.join()
@@ -139,6 +142,7 @@ Thread_freebiesglobal_com.join()
 print("Scanning done!")
 while not CoursesQueue.empty():
     Course = CoursesQueue.get()
+    print(Course['id'], Course['coupon_code'])
     if User.getCoursePurchaseInfo(Course['id'])['data']['purchase']['data']['purchase_date'] is None:
         if Course['coupon_code'] == '':
             Enrollment = User.enrollFreeCourse(Course['id'])
@@ -146,12 +150,12 @@ while not CoursesQueue.empty():
             Enrollment = User.enrollPaidCourseWithCoupon(Course['id'], Course['coupon_code'])
         if Enrollment['success']:
             print(f"Enrolled: {Course['title']}. ID: {Course['id']}. Task left: {CoursesQueue.qsize()}")
-            for x in range(1, random.randint(10, 20)):
+        else:
+            print(Enrollment)
+        for x in range(1, random.randint(10, 20)):
                 sys.stdout.write("\rPausing: %s" % str(x))
                 sys.stdout.flush()
                 time.sleep(1)
-            print()
-        else:
-            print(Enrollment)
+        print()
     else:
         print(f"The '{Course['title']}' has been already enrolled. ID: {Course['id']}. Task left: {CoursesQueue.qsize()}")
