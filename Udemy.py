@@ -6,20 +6,23 @@ from http.cookies import SimpleCookie
 
 
 class Udemy:
-    def __init__(self, email, password):
+    def __init__(self, email="", password=""):
         self.email = email
         self.password = password
         self.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3800.0 Safari/537.36 Edg/76.0.167.1"
         self.Courses = []
         parse = SimpleCookie()
-        parse.load('__cfduid=d1a96af197869b04489c4fb5698d415921566837072; ud_cache_version=1; ud_cache_device=None; __udmy_2_v57r=0227efd3c2ad4a5d8a91a34ff2da980d; ud_firstvisit=2019-08-26T16:31:12.843499+00:00:1i2Htg:vzLX-iOKyXHlb62he1ZYNogwxks; ud_cache_price_country=VN; ud_cache_marketplace_country=VN; ud_cache_language=en; ud_cache_brand=::VN:en_US; EUCookieMessageShown=true; EUCookieMessageState=initial; ud_cache_release=2fbe2f5f8fcbaff1881961e25696491631f7e3a3; seen=1; eventing_session_id=b0453f0ca454445cb92ef24c48184223; _pxhd=8f4c955dcba5b7fef827f239df1ded881bae985f3ad7fed6a408468e0e62c69c:837ccd40-c8de-11e9-a0b0-59e67ff1cda2; client_id=bd2565cb7b0c313f5e9bae44961e8db2; dj_session_id=btjqpqm09rpcarz3r6f2j56zagkyugmi; csrftoken=ARrdukM20imoMYU0pmU4stTx68ZXonUO9312GEOnGgSXalYCxaxMYUN34W5kjVIl; ud_credit_unseen=0; access_token=npRfMMVtNjTsYrauoMZX430KftH9bBD88FtBgeNF; ud_credit_last_seen=None; ud_cache_user=33252734; ud_cache_logged_in=1; ud_cache_campaign_code=MORETHANACOURSE; evi="SlFHKAYSV3ZKURlzXVBXdkpRXWNUU1luRxIJe1tURnxMDgdjHRVXdkpRGXNaUld2SlFdY1RTWW5HEgl7W1RAfExfCXNdUU1uCwgJN0xYRGATBUpjVFdMfwkOB2NcU0B8E0lQYxhAT30dUV0gTFhAeANFVm1MUEd/AVEROkwUV3YAXwk3D0BPeQdBGTxCQEd+BUsJexVAA24LQhttTBQUbgtGHXZeH1luA0ESeUxYDm5HURFwQkADLRNJHnlfWghgE0EYclpATzcTBQl7X05XOlBREXRXUEcxTA4="; ud_rule_vars="eJyFy0EKwjAQQNGryGy1Mpm0aZKzBMrQmUhQKKbRTendLYhrt5__Nmhcb9pUpndZS1tqRKJRs9iZWHoexHMwbPucSTh4lDgvy70oxBNsCXKpa_vaSbhpOnoCQhM69B25k3HRmmjo6u3gzHhGjIgJLsf14INWfb50_Yt9GND98A77B9bQNRw=:1i2dLO:gmDCgBAOiFlqElmioEr-42odcj4"; useragent=TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzc2LjAuMzgwOS4xMDAgU2FmYXJpLzUzNy4zNg%3D%3D; ')
+        parse.load('__cfduid=da6b138a2e0274d9d86d5dc5542b693fa1597692772; ud_cache_modern_browser=1; ud_cache_language=en; __udmy_2_v57r=4ff0c854b92543e7bbc716a780a7e8ba; ud_cache_marketplace_country=VN; ud_firstvisit=2020-08-17T19:32:55.421087+00:00:1k7ksJ:J76YnjQvE-2gc9wq32SIgPuxWbo; ud_cache_version=1; ud_cache_price_country=VN; EUCookieMessageShown=true; EUCookieMessageState=initial; __ssid=183b9e0d2ba7fd81cd6ef2050907b17; ud_credit_last_seen=None; ud_cache_logged_in=1; csrftoken=X2V4H95OsvDZAUkG2gNZtBG5msfh9g1RfFa0AojFNN9czMzxtg35QLIRRKAg78tT; client_id=bd2565cb7b0c313f5e9bae44961e8db2; access_token=bTuRa3FwXdfG4zZTXtTiAa7zzsYQhnCsB1saJDTt; dj_session_id=yjq3q7y188s14wgv2o0sx656ekdmd8d6; ud_cache_user=33252734; quality_general=720; caption=en; intercom-session-sehj53dd=eHJpRW1yWCtvbTlrVkVWOFU5T01HckVtbXlLSHF2V1pWYmVBSG0zUyt5YnZXaXNSaExCQ0dod01NalBnVTNyNS0tN1FMZEY4VVZHUC9iSDdiaHM2WDJLZz09--449a086d60eebb7120df2a539d68bf17023ec826; muxData=mux_viewer_id=6afc2c40-1fbc-47e5-b89d-595a024f0697&msn=0.7929344385681227&sid=ff8a70b8-a404-4942-bff2-27944eea0363&sst=1597696440120&sex=1597698893491; ud_cache_release=7f4ed8d139af2e6ee688; ud_cache_device=desktop; seen=1; __cfruid=9458b0560f9c904ca6f238b24838af9b7a0e49f6-1597736524; ud_credit_unseen=0; ud_cache_brand=VNen_US; ud_cache_campaign_code=SKILLUPSALE; ud_rule_vars="eJyFj01uwyAQha9isW0TDRgbzFksoYEMCUpaVBhnE-XuRUoiVe2i26f3vZ-bYKxHYjr4a26ZS3U6JYh20mFRkx7JhBCNnNFYQEM2oIulnDMJN4jbKlKujR-sPyDT2vVVKFCwA7uTZpCLG5Wbpr2Wo9bjG4ADWMV7d12wo5W-Nmr_wdbOC8g_MJctnjxXTClH38pWI_kr1ozh8kzLn43rFvuzH1zszkbP2Zw_fjfbAYzTs4M-W6lZmlfzXdy_ASz_W-U=:1k7wJp:sQFZSmNKzZXuOzljmeCCUggCzGY"; ud_user_jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJncm91cF9pZHMiOltdLCJpc19zdXBlcnVzZXIiOmZhbHNlLCJlbWFpbCI6Im5hbWhhaWhhMDMwOEBnbWFpbC5jb20iLCJpZCI6MzMyNTI3MzR9.TNAV-nT_IZYFjIfuQqdXguzyVKXHfGGbpGSy3sUsUHI; evi="SlFeMhlATzcTQRN2XEBPNxMFSmNUVUd/BV8JN0xYRDFMXwkyGxJXdkpRGXlZUld2SlFdIExYQn4DSwdjGEBPfUwOB2MNFgVuCwgJc1ZSRW4LCAk3D0BPewFFH21MFFd2AA4HY1xWTH4TSVBjGANXdgdAH3FCQANuC0FWPEJABjsTSVBjXFpNfhNJUGMYA1d2BkEedUJAA24LQlZtTFBAdQlRETpMFBRuC0Ued1ZOVzoTSRo8QkBHeghDCXsVQAMtE0kddlZSWW5HURF5E05XfglGHWNUGVc6UFERdl9bQ2ATBQl7XB9ZbgNBEnlMWA5uRxIJe1taR3wdUV1jVFMIYBNBHnZWQE83EwVKY1RUQH8BXwk3TFhEMUxfCScLQE83E0ETdVxATzcTBUpjVFVEegdfCTdMWEQxTF8JMQ8bV3ZKURl3WVBXdkpRXSBMWEN7AkUHYxhAT31MDgdjDQ4FPBNJUGNcWkB0E0lQYxgDV3YGQRtxQkADbgtCVjxCQAAoXRpfJExYDm4DSxhzTFgObkcSCXtZU0F4HVFdY1RTCDFM"; eventing_session_id=0NIe6BsASAC52cByQzLOcA-1597738566836; ')
         self.cookies = {}
         for key, morsel in parse.items():
             self.cookies[key] = morsel.value
         self.Bearer = 'Bearer {access_token}'.format(
             access_token=self.cookies['access_token'])
-        self.csrftoken = self.cookies['csrftoken']
-        self.dj_session_id = self.cookies['dj_session_id']
+        try:
+            self.csrftoken = self.cookies['csrftoken']
+            self.dj_session_id = self.cookies['dj_session_id']
+        except KeyError:
+            print(self.cookies)
         # if self.login() is True:
         #     print('Logged in!')
         # else:
@@ -47,7 +50,8 @@ class Udemy:
             'csrfmiddlewaretoken': data['crsf_form'],
             'locale': "vi_VN",
             'email': self.email,
-            'password': self.password
+            'password': self.password,
+            'submit':"Log In"
         }, headers={
             'origin': 'https://www.udemy.com',
             'referer': 'https://www.udemy.com/join/login-popup/',
@@ -177,14 +181,39 @@ class Udemy:
             'user-agent': self.UserAgent,
             'x-csrftoken': self.csrftoken,
             'X-Requested-With': 'XMLHttpRequest',
-                                'sec-fetch-mode': 'navigate',
-                                'sec-fetch-site': 'same-origin',
-                                'sec-fetch-user': '?1',
-                                'upgrade-insecure-requests': '1',
+            'sec-fetch-mode': 'navigate',
+            'sec-fetch-site': 'same-origin',
+            'sec-fetch-user': '?1',
+            'upgrade-insecure-requests': '1',
         })
         self.updateCookie(Enrollment.cookies)
         if Enrollment.status_code == 200:
             return dict(id=id, success=True, status_code=200, gateway_transaction_id=json.loads(Enrollment.text)['gateway_transaction_id'])
+        else:
+            return dict(id=id, success=False, status_code=Enrollment.status_code, error=json.loads(Enrollment.text))
+
+    def enrollPaidCourseWithCouponVersion2(self, id, coupon_code):
+        Enrollment = requests.post('https://www.udemy.com/payment/checkout-submit/', json={"checkout_event":"Submit","shopping_cart":{"items":[{"discountInfo":{"code":coupon_code},"purchasePrice":{"amount":0,"currency":"USD","price_string":"Free","currency_symbol":"$"},"buyableType":"course","buyableId":id,"buyableContext":{}}],"is_cart":False},"payment_info":{"payment_vendor":"Free","payment_method":"free-method"},"tax_info":{"is_tax_enabled":True,"tax_rate":0,"billing_location":{"country_code":"VN","secondary_location_info":None},"currency_code":"usd","transaction_items":[{"tax_amount":0,"tax_included_amount":0,"tax_excluded_amount":0,"udemy_txn_item_reference":f"course-{id}"}],"tax_breakdown_type":"tax_inclusive"}
+        }, cookies=self.cookies, headers={
+            'accept':'application/json, text/plain, */*',
+            'authorization': self.Bearer,
+            'content-type':'application/json;charset=UTF-8',
+            'origin':'https://www.udemy.com',
+            'x-checkout-is-mobile-app':'false',
+            'x-checkout-version':'2',
+            'referer': f'https://www.udemy.com/cart/checkout/express/course/{id}/?discountCode={coupon_code}',
+            'user-agent': self.UserAgent,
+            'x-csrftoken': self.csrftoken,
+            'X-Requested-With': 'XMLHttpRequest',
+            'sec-fetch-mode': 'navigate',
+            'sec-fetch-site': 'same-origin',
+            'sec-fetch-user': '?1',
+            'upgrade-insecure-requests': '1',
+            'x-udemy-authorization': self.Bearer,
+        })
+        self.updateCookie(Enrollment.cookies)
+        if Enrollment.status_code == 200:
+            return dict(id=id, success=True, status_code=200, transaction_id=json.loads(Enrollment.text)['data']['transaction_id'])
         else:
             return dict(id=id, success=False, status_code=Enrollment.status_code, error=json.loads(Enrollment.text))
 
