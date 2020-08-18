@@ -1,10 +1,9 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
-'''
+"""
 
-Author 	: Nasir Khan (r0ot h3x49)
-Github 	: https://github.com/r0oth3x49
+Author  : Nasir Khan (r0ot h3x49)
+Github  : https://github.com/r0oth3x49
 License : MIT
 
 
@@ -21,18 +20,31 @@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVE
 ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
 THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-'''
+"""
 
-from ._internal import InternUdemyCourse as Udemy
+from colorama import init, Fore, Back, Style
+
+init(autoreset=True)
+# colors foreground text:
+fc = Fore.CYAN
+fg = Fore.GREEN
+fw = Fore.WHITE
+fr = Fore.RED
+fb = Fore.BLUE
+fy = Fore.YELLOW
+fm = Fore.MAGENTA
 
 
-def course(url, username='', password='', cookies='', basic=True, callback=None):
-    """Returns udemy course instance.
+# colors background text:
+bc = Back.CYAN
+bg = Back.GREEN
+bw = Back.WHITE
+br = Back.RED
+bb = Back.BLUE
+by = Fore.YELLOW
+bm = Fore.MAGENTA
 
-    @params:
-        url      : Udemy course url required : type (string).
-        username : Udemy email account required : type (string).
-        password : Udemy account password required : type (string)
-        cookies  : Udemy account logged in browser cookies optional : type (string)
-    """
-    return Udemy(url, username, password, cookies, basic, callback)
+# colors style text:
+sd = Style.DIM
+sn = Style.NORMAL
+sb = Style.BRIGHT

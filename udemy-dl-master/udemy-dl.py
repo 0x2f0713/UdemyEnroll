@@ -24,10 +24,10 @@ getpass = GetPass()
 class Udemy(WebVtt2Srt, ProgressBar):
 
     def __init__(self, url, username='', password='', cookies=''):
-        self.url = url
-        self.username = username
-        self.password = password
-        self.cookies = cookies
+        self.url        =   url
+        self.username   =   username
+        self.password   =   password
+        self.cookies    =   cookies
         super(Udemy, self).__init__()
 
     def _write_to_file(self, filepath='', lecture='', names_only=False, unsafe=False):
@@ -50,53 +50,43 @@ class Udemy(WebVtt2Srt, ProgressBar):
             f = codecs.open(filename, fmode, encoding='utf-8', errors='ignore')
             f.write(url_or_name)
         except (OSError, Exception, UnicodeDecodeError) as e:
-            retVal = {'status': 'False', 'msg': '{}'.format(e)}
+            retVal = {'status' : 'False', 'msg' : '{}'.format(e)}
         else:
-            retVal = {'status': 'True', 'msg': 'download'}
+            retVal = {'status' : 'True', 'msg' : 'download'}
             f.close()
 
         return retVal
 
     def course_save(self, path='', quality='', caption_only=False, skip_captions=False, names_only=False, unsafe=False):
         if not self.cookies:
-            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sb +
-                             "Trying to login as " + fm + sb + "(%s)" % (self.username) + fg + sb + "...\n")
+            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sb + "Trying to login as " + fm + sb +"(%s)" % (self.username) +  fg + sb +"...\n")
         if self.cookies:
-            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd +
-                             "] : " + fg + sb + "Trying to login using cookies ...\n")
-        course = udemy.course(url=self.url, username=self.username,
-                              password=self.password, cookies=self.cookies)
+            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sb + "Trying to login using cookies ...\n")
+        course = udemy.course(url=self.url, username=self.username, password=self.password, cookies=self.cookies)
         course_id = course.id
         course_name = course.title
         total_lectures = course.lectures
         total_chapters = course.chapters
         course_name = (course_name.lower()).replace(' ', '-')
         chapters = course.get_chapters()
-        sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " +
-                         fg + sb + "Course " + fb + sb + "'%s'.\n" % (course_name))
-        sys.stdout.write(fc + sd + "[" + fm + sb + "+" + fc + sd +
-                         "] : " + fg + sd + "Chapter(s) (%s).\n" % (total_chapters))
-        sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd +
-                         "] : " + fg + sd + "Lecture(s) (%s).\n" % (total_lectures))
+        sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sb + "Course " + fb + sb + "'%s'.\n" % (course_name))
+        sys.stdout.write (fc + sd + "[" + fm + sb + "+" + fc + sd + "] : " + fg + sd + "Chapter(s) (%s).\n" % (total_chapters))
+        sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Lecture(s) (%s).\n" % (total_lectures))
         if path:
             if '~' in path:
-                path = os.path.expanduser(path)
-            course_path = "%s\\%s" % (
-                path, course_name) if os.name == 'nt' else "%s/%s" % (path, course_name)
+                path    = os.path.expanduser(path)
+            course_path    = "%s\\%s" % (path, course_name) if os.name == 'nt' else "%s/%s" % (path, course_name)
         else:
-            path = os.getcwd()
-            course_path = "%s\\%s" % (
-                path, course_name) if os.name == 'nt' else "%s/%s" % (path, course_name)
+            path        = os.getcwd()
+            course_path = "%s\\%s" % (path, course_name) if os.name == 'nt' else "%s/%s" % (path, course_name)
         filepath = '%s.txt' % (course_path)
         if os.path.isfile(filepath):
             with open(filepath, 'w') as f:
                 f.close()
         if not names_only:
-            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " +
-                             fg + sd + "Writing course content(s) to '%s.txt'\n" % (course_name))
+            sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Writing course content(s) to '%s.txt'\n" % (course_name))
         if names_only:
-            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd +
-                             "Writing course lecture names to '%s-names-only.txt'\n" % (course_name))
+            sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Writing course lecture names to '%s-names-only.txt'\n" % (course_name))
         for chapter in chapters:
             chapter_id = chapter.id
             chapter_title = chapter.title
@@ -121,70 +111,52 @@ class Udemy(WebVtt2Srt, ProgressBar):
                 if caption_only and not skip_captions:
                     if lecture_subtitles:
                         for subtitle in lecture_subtitles:
-                            self._write_to_file(
-                                filepath=course_path, lecture=subtitle, names_only=names_only, unsafe=unsafe)
+                            self._write_to_file(filepath=course_path, lecture=subtitle, names_only=names_only, unsafe=unsafe)
                     if lecture_assets:
                         for asset in lecture_assets:
-                            self._write_to_file(
-                                filepath=course_path, lecture=asset, names_only=names_only, unsafe=unsafe)
+                            self._write_to_file(filepath=course_path, lecture=asset, names_only=names_only, unsafe=unsafe)
                 elif skip_captions and not caption_only:
                     if lecture_best:
-                        self._write_to_file(
-                            filepath=course_path, lecture=lecture_best, names_only=names_only, unsafe=unsafe)
+                        self._write_to_file(filepath=course_path, lecture=lecture_best, names_only=names_only, unsafe=unsafe)
                     if lecture_assets:
                         for asset in lecture_assets:
-                            self._write_to_file(
-                                filepath=course_path, lecture=asset, names_only=names_only, unsafe=unsafe)
+                            self._write_to_file(filepath=course_path, lecture=asset, names_only=names_only, unsafe=unsafe)
                 else:
                     if lecture_best:
-                        self._write_to_file(
-                            filepath=course_path, lecture=lecture_best, names_only=names_only, unsafe=unsafe)
+                        self._write_to_file(filepath=course_path, lecture=lecture_best, names_only=names_only, unsafe=unsafe)
                     if lecture_assets:
                         for asset in lecture_assets:
-                            self._write_to_file(
-                                filepath=course_path, lecture=asset, names_only=names_only, unsafe=unsafe)
+                            self._write_to_file(filepath=course_path, lecture=asset, names_only=names_only, unsafe=unsafe)
                     if lecture_subtitles:
                         for subtitle in lecture_subtitles:
-                            self._write_to_file(
-                                filepath=course_path, lecture=subtitle, names_only=names_only, unsafe=unsafe)
+                            self._write_to_file(filepath=course_path, lecture=subtitle, names_only=names_only, unsafe=unsafe)
         if not names_only:
-            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg +
-                             sd + "Written successfully under '{name}.txt'.\n".format(name=course_path))
+            sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Written successfully under '{name}.txt'.\n".format(name=course_path))
         if names_only:
-            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd +
-                             "Written successfully under '{name}-names-only.txt'.\n".format(name=course_path))
+            sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Written successfully under '{name}-names-only.txt'.\n".format(name=course_path))
 
     def course_list_down(self, chapter_number='', lecture_number='', unsafe=False):
         if not self.cookies:
-            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sb +
-                             "Trying to login as " + fm + sb + "(%s)" % (self.username) + fg + sb + "...\n")
+            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sb + "Trying to login as " + fm + sb +"(%s)" % (self.username) +  fg + sb +"...\n")
         if self.cookies:
-            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd +
-                             "] : " + fg + sb + "Trying to login using cookies ...\n")
-        course = udemy.course(url=self.url, username=self.username,
-                              password=self.password, cookies=self.cookies)
+            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sb + "Trying to login using cookies ...\n")
+        course = udemy.course(url=self.url, username=self.username, password=self.password, cookies=self.cookies)
         course_id = course.id
         course_name = course.title
         total_lectures = course.lectures
         total_chapters = course.chapters
         chapters = course.get_chapters()
-        sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " +
-                         fg + sb + "Course " + fb + sb + "'%s'.\n" % (course_name))
-        sys.stdout.write(fc + sd + "[" + fm + sb + "+" + fc + sd +
-                         "] : " + fg + sd + "Chapter(s) (%s).\n" % (total_chapters))
-        sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd +
-                         "] : " + fg + sd + "Lecture(s) (%s).\n" % (total_lectures))
+        sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sb + "Course " + fb + sb + "'%s'.\n" % (course_name))
+        sys.stdout.write (fc + sd + "[" + fm + sb + "+" + fc + sd + "] : " + fg + sd + "Chapter(s) (%s).\n" % (total_chapters))
+        sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Lecture(s) (%s).\n" % (total_lectures))
         if chapter_number and chapter_number > 0 and chapter_number <= total_chapters:
             chapter = chapters[chapter_number-1]
             chapter_id = chapter.id
-            chapter_title = chapter.title if not unsafe else "%02d" % (
-                int(chapter.index))
+            chapter_title = chapter.title if not unsafe else "%02d" % (int(chapter.index))
             lectures = chapter.get_lectures()
             lectures_count = chapter.lectures
-            sys.stdout.write('\n' + fc + sd + "[" + fw + sb + "+" + fc + sd + "] : " +
-                             fw + sd + "Chapter (%s-%s)\n" % (chapter_title, chapter_id))
-            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd +
-                             "] : " + fg + sd + "Lecture(s) (%s).\n" % (lectures_count))
+            sys.stdout.write ('\n' + fc + sd + "[" + fw + sb + "+" + fc + sd + "] : " + fw + sd + "Chapter (%s-%s)\n" % (chapter_title, chapter_id))
+            sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Lecture(s) (%s).\n" % (lectures_count))
             if lecture_number and lecture_number > 0 and lecture_number <= lectures_count:
                 lecture = lectures[lecture_number-1]
                 lecture_id = lecture.id
@@ -193,66 +165,49 @@ class Udemy(WebVtt2Srt, ProgressBar):
                 lecture_assets = lecture.assets
                 lecture_subtitles = lecture.subtitles
                 if lecture_streams:
-                    sys.stdout.write(fc + sd + "     - " + fy + sb + "duration   : " +
-                                     fm + sb + str(lecture.duration) + fy + sb + ".\n")
-                    sys.stdout.write(fc + sd + "     - " + fy + sb +
-                                     "Lecture id : " + fm + sb + str(lecture_id) + fy + sb + ".\n")
+                    sys.stdout.write(fc + sd + "     - " + fy + sb + "duration   : " + fm + sb + str(lecture.duration)+ fy + sb + ".\n")
+                    sys.stdout.write(fc + sd + "     - " + fy + sb + "Lecture id : " + fm + sb + str(lecture_id)+ fy + sb + ".\n")
                     for stream in lecture_streams:
                         content_length = stream.get_filesize()
                         if content_length != 0:
                             if content_length <= 1048576.00:
-                                size = round(
-                                    float(content_length) / 1024.00, 2)
-                                sz = format(size if size <
-                                            1024.00 else size/1024.00, '.2f')
+                                size = round(float(content_length) / 1024.00, 2)
+                                sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                 in_MB = 'KB' if size < 1024.00 else 'MB'
                             else:
-                                size = round(
-                                    float(content_length) / 1048576, 2)
-                                sz = format(size if size <
-                                            1024.00 else size/1024.00, '.2f')
+                                size = round(float(content_length) / 1048576, 2)
+                                sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                 in_MB = "MB " if size < 1024.00 else 'GB '
                             if lecture_best.dimention[1] == stream.dimention[1]:
                                 in_MB = in_MB + fc + sb + "(Best)" + fg + sd
-                            sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(
-                                str(stream), stream.dimention[1] + 'p', sz, in_MB, fy, sb))
+                            sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(str(stream), stream.dimention[1] + 'p', sz, in_MB, fy, sb))
                 if lecture_assets:
                     for asset in lecture_assets:
                         if asset.mediatype != 'external_link':
                             content_length = asset.get_filesize()
                             if content_length != 0:
                                 if content_length <= 1048576.00:
-                                    size = round(
-                                        float(content_length) / 1024.00, 2)
-                                    sz = format(
-                                        size if size < 1024.00 else size/1024.00, '.2f')
+                                    size = round(float(content_length) / 1024.00, 2)
+                                    sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                     in_MB = 'KB' if size < 1024.00 else 'MB'
                                 else:
-                                    size = round(
-                                        float(content_length) / 1048576, 2)
-                                    sz = format(
-                                        size if size < 1024.00 else size/1024.00, '.2f')
+                                    size = round(float(content_length) / 1048576, 2)
+                                    sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                     in_MB = "MB " if size < 1024.00 else 'GB '
-                                sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(
-                                    str(asset), asset.extension, sz, in_MB, fy, sb))
+                                sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(str(asset), asset.extension, sz, in_MB, fy, sb))
                 if lecture_subtitles:
                     for subtitle in lecture_subtitles:
                         content_length = subtitle.get_filesize()
                         if content_length != 0:
                             if content_length <= 1048576.00:
-                                size = round(
-                                    float(content_length) / 1024.00, 2)
-                                sz = format(size if size <
-                                            1024.00 else size/1024.00, '.2f')
+                                size = round(float(content_length) / 1024.00, 2)
+                                sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                 in_MB = 'KB' if size < 1024.00 else 'MB'
                             else:
-                                size = round(
-                                    float(content_length) / 1048576, 2)
-                                sz = format(size if size <
-                                            1024.00 else size/1024.00, '.2f')
+                                size = round(float(content_length) / 1048576, 2)
+                                sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                 in_MB = "MB " if size < 1024.00 else 'GB '
-                            sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(
-                                str(subtitle), subtitle.extension, sz, in_MB, fy, sb))
+                            sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(str(subtitle), subtitle.extension, sz, in_MB, fy, sb))
             else:
                 for lecture in lectures:
                     lecture_id = lecture.id
@@ -261,78 +216,57 @@ class Udemy(WebVtt2Srt, ProgressBar):
                     lecture_assets = lecture.assets
                     lecture_subtitles = lecture.subtitles
                     if lecture_streams:
-                        sys.stdout.write(fc + sd + "     - " + fy + sb + "duration   : " +
-                                         fm + sb + str(lecture.duration) + fy + sb + ".\n")
-                        sys.stdout.write(
-                            fc + sd + "     - " + fy + sb + "Lecture id : " + fm + sb + str(lecture_id) + fy + sb + ".\n")
+                        sys.stdout.write(fc + sd + "     - " + fy + sb + "duration   : " + fm + sb + str(lecture.duration)+ fy + sb + ".\n")
+                        sys.stdout.write(fc + sd + "     - " + fy + sb + "Lecture id : " + fm + sb + str(lecture_id)+ fy + sb + ".\n")
                         for stream in lecture_streams:
                             content_length = stream.get_filesize()
                             if content_length != 0:
                                 if content_length <= 1048576.00:
-                                    size = round(
-                                        float(content_length) / 1024.00, 2)
-                                    sz = format(
-                                        size if size < 1024.00 else size/1024.00, '.2f')
+                                    size = round(float(content_length) / 1024.00, 2)
+                                    sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                     in_MB = 'KB' if size < 1024.00 else 'MB'
                                 else:
-                                    size = round(
-                                        float(content_length) / 1048576, 2)
-                                    sz = format(
-                                        size if size < 1024.00 else size/1024.00, '.2f')
+                                    size = round(float(content_length) / 1048576, 2)
+                                    sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                     in_MB = "MB " if size < 1024.00 else 'GB '
                                 if lecture_best.dimention[1] == stream.dimention[1]:
-                                    in_MB = in_MB + fc + \
-                                        sb + "(Best)" + fg + sd
-                                sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(
-                                    str(stream), stream.dimention[1] + 'p', sz, in_MB, fy, sb))
+                                    in_MB = in_MB + fc + sb + "(Best)" + fg + sd
+                                sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(str(stream), stream.dimention[1] + 'p', sz, in_MB, fy, sb))
                     if lecture_assets:
                         for asset in lecture_assets:
                             if asset.mediatype != 'external_link':
                                 content_length = asset.get_filesize()
                                 if content_length != 0:
                                     if content_length <= 1048576.00:
-                                        size = round(
-                                            float(content_length) / 1024.00, 2)
-                                        sz = format(
-                                            size if size < 1024.00 else size/1024.00, '.2f')
+                                        size = round(float(content_length) / 1024.00, 2)
+                                        sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                         in_MB = 'KB' if size < 1024.00 else 'MB'
                                     else:
-                                        size = round(
-                                            float(content_length) / 1048576, 2)
-                                        sz = format(
-                                            size if size < 1024.00 else size/1024.00, '.2f')
+                                        size = round(float(content_length) / 1048576, 2)
+                                        sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                         in_MB = "MB " if size < 1024.00 else 'GB '
-                                    sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(
-                                        str(asset), asset.extension, sz, in_MB, fy, sb))
+                                    sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(str(asset), asset.extension, sz, in_MB, fy, sb))
                     if lecture_subtitles:
                         for subtitle in lecture_subtitles:
                             content_length = subtitle.get_filesize()
                             if content_length != 0:
                                 if content_length <= 1048576.00:
-                                    size = round(
-                                        float(content_length) / 1024.00, 2)
-                                    sz = format(
-                                        size if size < 1024.00 else size/1024.00, '.2f')
+                                    size = round(float(content_length) / 1024.00, 2)
+                                    sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                     in_MB = 'KB' if size < 1024.00 else 'MB'
                                 else:
-                                    size = round(
-                                        float(content_length) / 1048576, 2)
-                                    sz = format(
-                                        size if size < 1024.00 else size/1024.00, '.2f')
+                                    size = round(float(content_length) / 1048576, 2)
+                                    sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                     in_MB = "MB " if size < 1024.00 else 'GB '
-                                sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(
-                                    str(subtitle), subtitle.extension, sz, in_MB, fy, sb))
+                                sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(str(subtitle), subtitle.extension, sz, in_MB, fy, sb))
         else:
             for chapter in chapters:
                 chapter_id = chapter.id
-                chapter_title = chapter.title if not unsafe else "%02d" % (
-                    int(chapter.index))
+                chapter_title = chapter.title if not unsafe else "%02d" % (int(chapter.index))
                 lectures = chapter.get_lectures()
                 lectures_count = chapter.lectures
-                sys.stdout.write('\n' + fc + sd + "[" + fw + sb + "+" + fc + sd + "] : " +
-                                 fw + sd + "Chapter (%s-%s)\n" % (chapter_title, chapter_id))
-                sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd +
-                                 "] : " + fg + sd + "Lecture(s) (%s).\n" % (lectures_count))
+                sys.stdout.write ('\n' + fc + sd + "[" + fw + sb + "+" + fc + sd + "] : " + fw + sd + "Chapter (%s-%s)\n" % (chapter_title, chapter_id))
+                sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Lecture(s) (%s).\n" % (lectures_count))
                 for lecture in lectures:
                     lecture_id = lecture.id
                     lecture_streams = lecture.streams
@@ -340,67 +274,49 @@ class Udemy(WebVtt2Srt, ProgressBar):
                     lecture_assets = lecture.assets
                     lecture_subtitles = lecture.subtitles
                     if lecture_streams:
-                        sys.stdout.write(fc + sd + "     - " + fy + sb + "duration   : " +
-                                         fm + sb + str(lecture.duration) + fy + sb + ".\n")
-                        sys.stdout.write(
-                            fc + sd + "     - " + fy + sb + "Lecture id : " + fm + sb + str(lecture_id) + fy + sb + ".\n")
+                        sys.stdout.write(fc + sd + "     - " + fy + sb + "duration   : " + fm + sb + str(lecture.duration)+ fy + sb + ".\n")
+                        sys.stdout.write(fc + sd + "     - " + fy + sb + "Lecture id : " + fm + sb + str(lecture_id)+ fy + sb + ".\n")
                         for stream in lecture_streams:
                             content_length = stream.get_filesize()
                             if content_length != 0:
                                 if content_length <= 1048576.00:
-                                    size = round(
-                                        float(content_length) / 1024.00, 2)
-                                    sz = format(
-                                        size if size < 1024.00 else size/1024.00, '.2f')
+                                    size = round(float(content_length) / 1024.00, 2)
+                                    sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                     in_MB = 'KB' if size < 1024.00 else 'MB'
                                 else:
-                                    size = round(
-                                        float(content_length) / 1048576, 2)
-                                    sz = format(
-                                        size if size < 1024.00 else size/1024.00, '.2f')
+                                    size = round(float(content_length) / 1048576, 2)
+                                    sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                     in_MB = "MB " if size < 1024.00 else 'GB '
                                 if lecture_best.dimention[1] == stream.dimention[1]:
-                                    in_MB = in_MB + fc + \
-                                        sb + "(Best)" + fg + sd
-                                sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(
-                                    str(stream), stream.dimention[1] + 'p', sz, in_MB, fy, sb))
+                                    in_MB = in_MB + fc + sb + "(Best)" + fg + sd
+                                sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(str(stream), stream.dimention[1] + 'p', sz, in_MB, fy, sb))
                     if lecture_assets:
                         for asset in lecture_assets:
                             if asset.mediatype != 'external_link':
                                 content_length = asset.get_filesize()
                                 if content_length != 0:
                                     if content_length <= 1048576.00:
-                                        size = round(
-                                            float(content_length) / 1024.00, 2)
-                                        sz = format(
-                                            size if size < 1024.00 else size/1024.00, '.2f')
+                                        size = round(float(content_length) / 1024.00, 2)
+                                        sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                         in_MB = 'KB' if size < 1024.00 else 'MB'
                                     else:
-                                        size = round(
-                                            float(content_length) / 1048576, 2)
-                                        sz = format(
-                                            size if size < 1024.00 else size/1024.00, '.2f')
+                                        size = round(float(content_length) / 1048576, 2)
+                                        sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                         in_MB = "MB " if size < 1024.00 else 'GB '
-                                    sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(
-                                        str(asset), asset.extension, sz, in_MB, fy, sb))
+                                    sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(str(asset), asset.extension, sz, in_MB, fy, sb))
                     if lecture_subtitles:
                         for subtitle in lecture_subtitles:
                             content_length = subtitle.get_filesize()
                             if content_length != 0:
                                 if content_length <= 1048576.00:
-                                    size = round(
-                                        float(content_length) / 1024.00, 2)
-                                    sz = format(
-                                        size if size < 1024.00 else size/1024.00, '.2f')
+                                    size = round(float(content_length) / 1024.00, 2)
+                                    sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                     in_MB = 'KB' if size < 1024.00 else 'MB'
                                 else:
-                                    size = round(
-                                        float(content_length) / 1048576, 2)
-                                    sz = format(
-                                        size if size < 1024.00 else size/1024.00, '.2f')
+                                    size = round(float(content_length) / 1048576, 2)
+                                    sz = format(size if size < 1024.00 else size/1024.00, '.2f')
                                     in_MB = "MB " if size < 1024.00 else 'GB '
-                                sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(
-                                    str(subtitle), subtitle.extension, sz, in_MB, fy, sb))
+                                sys.stdout.write('\t- ' + fg + sd + "{:<22} {:<8}{}{}{}{}\n".format(str(subtitle), subtitle.extension, sz, in_MB, fy, sb))
 
     def download_assets(self, lecture_assets='', filepath='', unsafe=False):
         if lecture_assets:
@@ -408,85 +324,62 @@ class Udemy(WebVtt2Srt, ProgressBar):
                 title = assets.filename if not unsafe else "%s" % (assets)
                 mediatype = assets.mediatype
                 if mediatype == "external_link":
-                    assets.download(filepath=filepath, unsafe=unsafe,
-                                    quiet=True, callback=self.show_progress)
+                    assets.download(filepath=filepath, unsafe=unsafe, quiet=True, callback=self.show_progress)
                 else:
-                    sys.stdout.write(
-                        fc + sd + "\n[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Downloading asset(s)\n")
-                    sys.stdout.write(
-                        fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Downloading (%s)\n" % (title))
+                    sys.stdout.write(fc + sd + "\n[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Downloading asset(s)\n")
+                    sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Downloading (%s)\n" % (title))
                     try:
-                        retval = assets.download(
-                            filepath=filepath, unsafe=unsafe, quiet=True, callback=self.show_progress)
+                        retval = assets.download(filepath=filepath, unsafe=unsafe, quiet=True, callback=self.show_progress)
                     except KeyboardInterrupt:
-                        sys.stdout.write(
-                            fc + sd + "\n[" + fr + sb + "-" + fc + sd + "] : " + fr + sd + "User Interrupted..\n")
+                        sys.stdout.write (fc + sd + "\n[" + fr + sb + "-" + fc + sd + "] : " + fr + sd + "User Interrupted..\n")
                         sys.exit(0)
                     else:
-                        msg = retval.get('msg')
+                        msg     = retval.get('msg')
                         if msg == 'already downloaded':
-                            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Asset : '%s' " % (
-                                title) + fy + sb + "(already downloaded).\n")
+                            sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Asset : '%s' " % (title) + fy + sb + "(already downloaded).\n")
                         elif msg == 'download':
-                            sys.stdout.write(
-                                fc + sd + "[" + fm + sb + "+" + fc + sd + "] : " + fg + sd + "Downloaded  (%s)\n" % (title))
+                            sys.stdout.write (fc + sd + "[" + fm + sb + "+" + fc + sd + "] : " + fg + sd + "Downloaded  (%s)\n" % (title))
                         else:
-                            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg +
-                                             sd + "Asset : '%s' " % (title) + fc + sb + "(download skipped).\n")
-                            sys.stdout.write(
-                                fc + sd + "[" + fr + sb + "-" + fc + sd + "] : " + fr + sd + "{}\n".format(msg))
+                            sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Asset : '%s' " % (title) + fc + sb + "(download skipped).\n")
+                            sys.stdout.write (fc + sd + "[" + fr + sb + "-" + fc + sd + "] : " + fr + sd + "{}\n".format(msg))
 
     def download_subtitles(self, lecture_subtitles='', language='', filepath='', unsafe=False):
         if language:
-            _lecture_subtitles = [
-                i for i in lecture_subtitles if i.language == language]
+            _lecture_subtitles = [i for i in lecture_subtitles if i.language == language]
             if _lecture_subtitles:
                 lecture_subtitles = _lecture_subtitles
         if lecture_subtitles:
             for subtitles in lecture_subtitles:
-                title = subtitles.title + '-' + \
-                    subtitles.language if not unsafe else "%s" % (subtitles)
+                title = subtitles.title + '-' + subtitles.language if not unsafe else "%s" % (subtitles)
                 if not unsafe:
-                    filename = "%s\\%s" % (
-                        filepath, subtitles.filename) if os.name == 'nt' else "%s/%s" % (filepath, subtitles.filename)
+                    filename = "%s\\%s" % (filepath, subtitles.filename) if os.name == 'nt' else "%s/%s" % (filepath, subtitles.filename)
                 if unsafe:
-                    filename = u"%s\\%s" % (
-                        filepath, subtitles.unsafe_filename) if os.name == 'nt' else u"%s/%s" % (filepath, subtitles.unsafe_filename)
+                    filename = u"%s\\%s" % (filepath, subtitles.unsafe_filename) if os.name == 'nt' else u"%s/%s" % (filepath, subtitles.unsafe_filename)
 
-                sys.stdout.write(
-                    fc + sd + "\n[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Downloading subtitle(s)\n")
-                sys.stdout.write(
-                    fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Downloading (%s)\n" % (title))
-
+                sys.stdout.write(fc + sd + "\n[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Downloading subtitle(s)\n")
+                sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Downloading (%s)\n" % (title))
+                
                 try:
-                    retval = subtitles.download(
-                        filepath=filepath, unsafe=unsafe, quiet=True, callback=self.show_progress)
+                    retval = subtitles.download(filepath=filepath, unsafe=unsafe, quiet=True, callback=self.show_progress)
                 except KeyboardInterrupt:
-                    sys.stdout.write(
-                        fc + sd + "\n[" + fr + sb + "-" + fc + sd + "] : " + fr + sd + "User Interrupted..\n")
+                    sys.stdout.write (fc + sd + "\n[" + fr + sb + "-" + fc + sd + "] : " + fr + sd + "User Interrupted..\n")
                     sys.exit(0)
                 else:
-                    msg = retval.get('msg')
+                    msg     = retval.get('msg')
                     if msg == 'already downloaded':
-                        sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg +
-                                         sd + "Subtitle : '%s' " % (title) + fy + sb + "(already downloaded).\n")
+                        sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Subtitle : '%s' " % (title) + fy + sb + "(already downloaded).\n")
                         self.convert(filename=filename)
                     elif msg == 'download':
-                        sys.stdout.write(
-                            fc + sd + "[" + fm + sb + "+" + fc + sd + "] : " + fg + sd + "Downloaded  (%s)\n" % (title))
+                        sys.stdout.write (fc + sd + "[" + fm + sb + "+" + fc + sd + "] : " + fg + sd + "Downloaded  (%s)\n" % (title))
                         self.convert(filename=filename)
                     else:
-                        sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg +
-                                         sd + "Subtitle : '%s' " % (title) + fc + sb + "(download skipped).\n")
-                        sys.stdout.write(
-                            fc + sd + "[" + fr + sb + "-" + fc + sd + "] : " + fr + sd + "{}\n".format(msg))
+                        sys.stdout.write (fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Subtitle : '%s' " % (title) + fc + sb + "(download skipped).\n")
+                        sys.stdout.write (fc + sd + "[" + fr + sb + "-" + fc + sd + "] : " + fr + sd + "{}\n".format(msg))
 
     def download_lectures(self, lecture_best='', lecture_title='', inner_index='', lectures_count='', filepath='', unsafe=False):
         if lecture_best:
-            sys.stdout.write(fc + sd + "\n[" + fm + sb + "*" + fc + sd + "] : " + fg + sd +
-                             "Lecture(s) : ({index} of {total})\n".format(index=inner_index, total=lectures_count))
-            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd +
-                             "] : " + fg + sd + "Downloading (%s)\n" % (lecture_title))
+            sys.stdout.write(fc + sd + "\n[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Lecture(s) : ({index} of {total})\n".format(index=inner_index, total=lectures_count))
+            sys.stdout.write(fc + sd + "[" + fm + sb + "*" + fc + sd + "] : " + fg + sd + "Downloading (%s)\n" % (lecture_title))
             try:
                 retval = lecture_best.download(filepath=filepath, unsafe=unsafe, quiet=True, callback=self.show_progress)
             except KeyboardInterrupt:

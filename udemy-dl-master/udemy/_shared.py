@@ -1,13 +1,13 @@
 #!/usr/bin/python
 
-'''
+"""
 
 Author  : Nasir Khan (r0ot h3x49)
 Github  : https://github.com/r0oth3x49
 License : MIT
 
 
-Copyright (c) 2018 Nasir Khan (r0ot h3x49)
+Copyright (c) 2020 Nasir Khan (r0ot h3x49)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the
 Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
@@ -20,8 +20,7 @@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVE
 ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
 THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-'''
-from platform import system
+"""
 from ._compat import (
                 re,
                 os,
@@ -142,7 +141,7 @@ class Downloader(object):
         bytes_to_be_downloaded = 0
         fmode, offset = "wb", 0
         chunksize, bytesdone, t0 = 16384, 0, time.time()
-        headers = {'User-Agent': HEADERS.get('User-Agent')}
+        headers = {'User-Agent': HEADERS.get('User-Agent'), "Accept-Encoding": None}
         if os.path.exists(temp_filepath):
             offset = os.stat(temp_filepath).st_size
 
@@ -158,69 +157,65 @@ class Downloader(object):
         if early_py_version:
             status_string = ('  {0:} Bytes [{1:.2%}] received. Rate:'
                              ' [{2:4.0f} KB/s].  ETA: [{3:.0f} secs]')
-        if system() == "Windows":
-            import multithread
-            download_object = multithread.Downloader(self.url.replace('https://','http://'), filepath)
-            download_object.start()
-        else:
+
+        try:
             try:
-                try:
-                    response = self._sess.get(self.url.replace('https://','http://'), headers=headers, stream=True, timeout=10)
-                except conn_error as error:
-                    return {'status': 'False', 'msg': 'ConnectionError: %s' % (str(error))}
-                with response:
-                    if response.ok:
-                        bytes_to_be_downloaded = total = int(response.headers.get('Content-Length'))
-                        if bytesdone > 0:
-                            bytes_to_be_downloaded = bytes_to_be_downloaded + bytesdone
-                        total = bytes_to_be_downloaded
-                        with open(temp_filepath, fmode) as media_file:
-                            is_malformed = False
-                            for chunk in response.iter_content(chunksize):
-                                if not chunk:
-                                    break
-                                media_file.write(chunk)
-                                elapsed = time.time() - t0
-                                bytesdone += len(chunk)
-                                if elapsed:
-                                    try:
-                                        rate = ((float(bytesdone) - float(offset)) / 1024.0) / elapsed
-                                        eta = (total - bytesdone) / (rate * 1024.0)
-                                    except ZeroDivisionError:
-                                        is_malformed = True
-                                        try:
-                                            os.unlink(temp_filepath)
-                                        except Exception:
-                                            pass
-                                        retVal = {"status" : "False", "msg" : "ZeroDivisionError : it seems, lecture has malfunction or is zero byte(s) .."}
-                                        break
-                                else:
-                                    rate = 0
-                                    eta = 0
+                response = self._sess.get(self.url, headers=headers, stream=True, timeout=10)
+            except conn_error as error:
+                return {'status': 'False', 'msg': 'ConnectionError: %s' % (str(error))}
+            if response.ok:
+                bytes_to_be_downloaded = total = int(response.headers.get('Content-Length'))
+                if bytesdone > 0:
+                    bytes_to_be_downloaded = bytes_to_be_downloaded + bytesdone
+                total = bytes_to_be_downloaded
+                with open(temp_filepath, fmode) as media_file:
+                    is_malformed = False
+                    for chunk in response.iter_content(chunksize):
+                        if not chunk:
+                            break
+                        media_file.write(chunk)
+                        elapsed = time.time() - t0
+                        bytesdone += len(chunk)
+                        if elapsed:
+                            try:
+                                rate = ((float(bytesdone) - float(offset)) / 1024.0) / elapsed
+                                eta = (total - bytesdone) / (rate * 1024.0)
+                            except ZeroDivisionError:
+                                is_malformed = True
+                                try:
+                                    os.unlink(temp_filepath)
+                                except Exception:
+                                    pass
+                                retVal = {"status" : "False", "msg" : "ZeroDivisionError : it seems, lecture has malfunction or is zero byte(s) .."}
+                                break
+                        else:
+                            rate = 0
+                            eta = 0
 
-                                if not is_malformed:
-                                    progress_stats = (
-                                        bytesdone, bytesdone * 1.0 / total, rate, eta)
+                        if not is_malformed:
+                            progress_stats = (
+                                bytesdone, bytesdone * 1.0 / total, rate, eta)
 
-                                    if not quiet:
-                                        status = status_string.format(*progress_stats)
-                                        sys.stdout.write(
-                                            "\r" + status + ' ' * 4 + "\r")
-                                        sys.stdout.flush()
+                            if not quiet:
+                                status = status_string.format(*progress_stats)
+                                sys.stdout.write(
+                                    "\r" + status + ' ' * 4 + "\r")
+                                sys.stdout.flush()
 
-                                    if callback:
-                                        callback(total, *progress_stats)
-                    if not response.ok:
-                        code = response.status_code
-                        reason = response.reason
-                        retVal = {
-                            "status": "False", "msg": "Udemy returned HTTP Code %s: %s" % (code, reason)}
-            except KeyboardInterrupt as error:
-                raise error
-            except Exception as error:
-                retVal = {"status": "False",
-                          "msg": "Reason : {}".format(str(error))}
-                return retVal
+                            if callback:
+                                callback(total, *progress_stats)
+            if not response.ok:
+                code = response.status_code
+                reason = response.reason
+                retVal = {
+                    "status": "False", "msg": "Udemy returned HTTP Code %s: %s" % (code, reason)}
+                response.close()
+        except KeyboardInterrupt as error:
+            raise error
+        except Exception as error:
+            retVal = {"status": "False",
+                      "msg": "Reason : {}".format(str(error))}
+            return retVal
         # check if file is downloaded completely
         if os.path.isfile(temp_filepath):
             total_bytes_done = os.stat(temp_filepath).st_size
