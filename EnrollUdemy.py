@@ -8,6 +8,8 @@ import sys
 import urllib.parse as parse
 import random
 import time
+import sys
+
 
 
 CoursesQueue = queue.Queue(maxsize=0)
@@ -56,24 +58,27 @@ class discudemy(EnrollThreading):
 
     def run(self):
         def scanPage(self, i):
-            HTML = requests.get(
-                'https://www.discudemy.com/all/{number}'.format(number=i), allow_redirects=True)
-            # print("%s: %i" % (self.name, i))
-            URLS = re.findall(
-                r'<a class="card-header" href="((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[discudemy]*\.[a-z]{2,5}?(\/.*)?)">', HTML.text)
-            if len(URLS) == 0:
-                print("discudemy error")
-            else:
-                for x in range(0, 15):
-                    endpoint = URLS[x][2].strip('/').split('/')
-                    if endpoint[0] == 'giveaway':
-                        continue
-                    info = requests.get(
-                        'https://www.discudemy.com/go/{published_title}'.format(published_title=endpoint[1])).text
-                    url = re.search(
-                        r'(https):\/\/(www\.udemy)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?', info)[0].replace('/course/', '/')
-                    self.addCourse(url)
-                    self.writeProgress()
+            try:
+                HTML = requests.get(
+                    'https://www.discudemy.com/all/{number}'.format(number=i), allow_redirects=True)
+                # print("%s: %i" % (self.name, i))
+                URLS = re.findall(
+                    r'<a class="card-header" href="((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[discudemy]*\.[a-z]{2,5}?(\/.*)?)">', HTML.text)
+                if len(URLS) == 0:
+                    print("discudemy error")
+                else:
+                    for x in range(0, 15):
+                        endpoint = URLS[x][2].strip('/').split('/')
+                        if endpoint[0] == 'giveaway':
+                            continue
+                        info = requests.get(
+                            'https://www.discudemy.com/go/{published_title}'.format(published_title=endpoint[1])).text
+                        url = re.search(
+                            r'(https):\/\/(www\.udemy)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?', info)[0].replace('/course/', '/')
+                        self.addCourse(url)
+                        self.writeProgress()
+            except:
+                sys.exit(1)
 
         for i in range(self.begin, self.end):
             t_page = threading.Thread(target=scanPage, args=(self, i,))
@@ -87,16 +92,19 @@ class udemycoupon_learnviral_com(EnrollThreading):
 
     def run(self):
         def scanPage(self, i):
-            HTML = requests.get(
-                'https://udemycoupon.learnviral.com/coupon-category/free100-discount/page/{number}'.format(number=i), allow_redirects=True, headers={
-                    'user-agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3800.0 Safari/537.36 Edg/76.0.167.1"
-                })
-            URLS = re.findall(r'(https://www\.udemy\.com.*)(" id)', HTML.text)
-            if len(URLS) == 0:
-                print("udemycoupon.learnviral.com error")
-            for url in URLS:
-                self.addCourse(url[0].replace('/course/', '/'))
-                self.writeProgress()
+            try:
+                HTML = requests.get(
+                    'https://udemycoupon.learnviral.com/coupon-category/free100-discount/page/{number}'.format(number=i), allow_redirects=True, headers={
+                        'user-agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3800.0 Safari/537.36 Edg/76.0.167.1"
+                    })
+                URLS = re.findall(r'(https://www\.udemy\.com.*)(" id)', HTML.text)
+                if len(URLS) == 0:
+                    print("udemycoupon.learnviral.com error")
+                for url in URLS:
+                    self.addCourse(url[0].replace('/course/', '/'))
+                    self.writeProgress()
+            except:
+                sys.exit(1)
         for i in range(self.begin - 1, self.end):
             t_page = threading.Thread(target=scanPage, args=(self, i,))
             t_page.start()
@@ -109,22 +117,25 @@ class freebiesglobal_com(EnrollThreading):
 
     def run(self):
         def scanPage(self, i):
-            HTML = requests.get(
-                'https://freebiesglobal.com/dealstore/udemy/page/{number}'.format(number=i), allow_redirects=True)
-            # print("%s: %i" % (self.name, i))
-            URLS = re.findall(
-                r'<a class="img-centered-flex rh-flex-center-align rh-flex-justify-center" href="(https:\/\/freebiesglobal\.com\/[\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])', HTML.text)
-            if len(URLS) == 0:
-                print(HTML)
-                print("freebiesglobal_com error")
-            for x in URLS:
-                info = requests.get(x).text
-                url = re.search(
-                    r'(https):\/\/(www\.udemy)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?', info)
-                if url is not None:
-                    url = url[0].replace('/course/', '/')
-                    self.addCourse(url)
-                    self.writeProgress()
+            try:
+                HTML = requests.get(
+                    'https://freebiesglobal.com/dealstore/udemy/page/{number}'.format(number=i), allow_redirects=True)
+                # print("%s: %i" % (self.name, i))
+                URLS = re.findall(
+                    r'<a class="img-centered-flex rh-flex-center-align rh-flex-justify-center" href="(https:\/\/freebiesglobal\.com\/[\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])', HTML.text)
+                if len(URLS) == 0:
+                    print(HTML)
+                    print("freebiesglobal_com error")
+                for x in URLS:
+                    info = requests.get(x).text
+                    url = re.search(
+                        r'(https):\/\/(www\.udemy)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?', info)
+                    if url is not None:
+                        url = url[0].replace('/course/', '/')
+                        self.addCourse(url)
+                        self.writeProgress()
+            except:
+                sys.exit(1)
 
         for i in range(self.begin, self.end):
             t_page = threading.Thread(target=scanPage, args=(self, i,))

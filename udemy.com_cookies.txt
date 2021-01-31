@@ -1,0 +1,38 @@
+# Netscape HTTP Cookie File
+# http://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file!  Do not edit.
+
+.udemy.com	TRUE	/	TRUE	1643558160	__udmy_2_v57r	4ff0c854b92543e7bbc716a780a7e8ba
+www.udemy.com	FALSE	/	FALSE	1629228774	ud_firstvisit	2020-08-17T19:32:55.421087+00:00:1k7ksJ:J76YnjQvE-2gc9wq32SIgPuxWbo
+www.udemy.com	FALSE	/	FALSE	1913052776	EUCookieMessageShown	true
+.udemy.com	TRUE	/	FALSE	1723923179	__ssid	183b9e0d2ba7fd81cd6ef2050907b17
+www.udemy.com	FALSE	/	FALSE	2228417393	muxData	mux_viewer_id=6afc2c40-1fbc-47e5-b89d-595a024f0697&msn=0.7929344385681227&sid=ff8a70b8-a404-4942-bff2-27944eea0363&sst=1597696440120&sex=1597698893491
+.www.udemy.com	TRUE	/	FALSE	1629290998	__stripe_mid	7f7eadf7-acb7-47b0-b095-b1774320387c40fcb7
+.udemy.com	TRUE	/	FALSE	1614614119	__cfduid	d37f5b020fbae6c912d4d2883ec231bea1612022122
+www.udemy.com	FALSE	/	TRUE	1612108560	ud_cache_version	1
+www.udemy.com	FALSE	/	TRUE	1612108560	ud_cache_brand	VNen_US
+www.udemy.com	FALSE	/	TRUE	1612108560	ud_cache_release	5f1e7d991a646cd3ebc5
+www.udemy.com	FALSE	/	TRUE	1612108560	ud_cache_language	en
+www.udemy.com	FALSE	/	TRUE	1612108560	ud_cache_price_country	VN
+www.udemy.com	FALSE	/	TRUE	1612108560	ud_cache_campaign_code	KEEPLEARNING
+www.udemy.com	FALSE	/	TRUE	1612108560	ud_cache_marketplace_country	VN
+www.udemy.com	FALSE	/	TRUE	1612108560	ud_cache_modern_browser	1
+www.udemy.com	FALSE	/	FALSE	1612023999	seen	1
+.udemy.com	TRUE	/	TRUE	1612023920	__cf_bm	6bbae0957939b3eaf2cd47398ee7200b9ff6a095-1612022123-1800-AZbbcH9EIcQADcln+JZR8tX2JhpeyvNsEQ+kADyGVATaTt9gGhkzEFzsuoeoU3kbeLGTL2LlmDP+wLiqLbCuD80=
+.udemy.com	TRUE	/	TRUE	0	__cfruid	491e00f109a702ee3fb92a65f25dfe70f7265efd-1612022123
+www.udemy.com	FALSE	/	FALSE	0	_pxhd	ec04cdc9a1a59f5431aca18b8f60a7bfd1f1bced263503b7c8183ccedfd1238d:9252f211-6313-11eb-82ec-65188014aede
+www.udemy.com	FALSE	/	TRUE	1614614130	access_token	bTuRa3FwXdfG4zZTXtTiAa7zzsYQhnCsB1saJDTt
+www.udemy.com	FALSE	/	TRUE	1643471730	csrftoken	nvzuzDYrlTdOtnBI2mtnvKGIwFBmSNE5eFvaMS4sRW6ubLHbvVnVeKoZz0mIa9OV
+www.udemy.com	FALSE	/	TRUE	1612108560	ud_cache_user	33252734
+www.udemy.com	FALSE	/	TRUE	1614614130	ud_user_jwt	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc19zdXBlcnVzZXIiOmZhbHNlLCJpZCI6MzMyNTI3MzQsImdyb3VwX2lkcyI6W10sImVtYWlsIjoibmFtaGFpaGEwMzA4QGdtYWlsLmNvbSJ9.gDP7qhgBWk4mYig2kqOQvttpoZ3e-GT4V01FDLtttWo
+www.udemy.com	FALSE	/	FALSE	1659110130	ud_last_auth_information	"{\"suggested_user_avatar\": \"https://img-a.udemycdn.com/user/50x50/33252734_4560_3.jpg?YWSeQTkr_gjB305De5cV5Na5CC4RhHr8t7UzM_6eHcRjsPlm8SadO1QYEtbx_D2BU0JHrUXZpH-xTdJjUoM5wBowcKC4lhnJHKdNXcdV0x401zCrkuCia2Zvt_-L\"\054 \"suggested_user_email\": \"namhaiha0308@gmail.com\"\054 \"backend\": \"udemy-auth\"\054 \"suggested_user_name\": \"H\\u00e0 H\\u1ea3i\"}:1l5say:vzd_ZgmUPg1w2WQe-_CkhWUXn8o"
+www.udemy.com	FALSE	/	TRUE	1614614130	client_id	bd2565cb7b0c313f5e9bae44961e8db2
+www.udemy.com	FALSE	/	TRUE	1612108560	ud_cache_logged_in	1
+www.udemy.com	FALSE	/	FALSE	1643558130	ud_credit_last_seen	None
+www.udemy.com	FALSE	/	FALSE	1612029330	ud_credit_unseen	0
+www.udemy.com	FALSE	/	TRUE	1614614130	dj_session_id	2cbh450luaahpd80c1euzodvgg9rsnnu
+www.udemy.com	FALSE	/	TRUE	1612108560	ud_cache_device	desktop
+.udemy.com	TRUE	/	TRUE	1612023953	eventing_session_id	W8ViuIsiQ76J4IBEzMT5Bw-1612023953206
+www.udemy.com	FALSE	/	FALSE	1612022278	landing_info	{'referer': 'https://www.udemy.com/course/opencv-python-for-beginners-hands-on-computer-vision/', 'url': '/api-2.0/course-landing-components/2549423/me/?components=practice_test_bundle,recommendation,instructor_bio,incentives,featured_qa,caching_intent'}
+www.udemy.com	FALSE	/	FALSE	1614614160	evi	SlFYNkxYDm4DQRJ5TFgObkcSCXtbWkd8HVFdY1RTCGATQR54VkBPNxMFSmNUVEB6CV8JN0xYRDFMXwkiAhIFbgsICXJeW0duCwgJNw9AT3sGQBttTBRXdgAOB2NdUkd0E0lQYxgDV3YGRhN3QkADbgtCVjwT
+www.udemy.com	FALSE	/	FALSE	1675094160	ud_rule_vars	"eJyFj8tuAyEMRX9lxLaZyLwGhm8ZCRkCLWoaVPB0E-Xfg5pWza6Sd_Y59_rKCNtronTyX6UXqs2pnCFarcIqtJLJhBANX9BYQJNsQBdrfS-JuYldN3bGTj7WvfX0MHgqH2kb240JEHwGPkuYuHZ6zHIURurFvAA4gI0dxlUubSge7Anpj4UZ7MzNxFcnxcCPikul5DP7nU51j2-eGuZcou-jSxxdsBUM5x9buXRqexzvPXEtfe6p_xdq7bIC_w29sdsdpilb5g==:1l5sbS:e-yHXPg9_HGvjdxe57u9Fgw-yCM"
