@@ -224,7 +224,7 @@ while not CoursesQueue.empty():
                     "upgrade-insecure-requests": "1",
                     "Cookie":"__test=7fba742425ea9234ce97eb0a275369e7"
                 },
-                data={
+                json={
                     "course_id": Course["id"],
                     "course_long_id": Course["published_title"],
                     "course_name": Course["title"],
