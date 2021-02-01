@@ -218,6 +218,7 @@ while not CoursesQueue.empty():
             )
             LogRequest = requests.post(
                 "https://mess.0x2f0713.cf/api/enroll_udemy/logs",
+                verify=False,
                 headers={
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36 Edg/88.0.705.53",
                     "upgrade-insecure-requests": "1",
