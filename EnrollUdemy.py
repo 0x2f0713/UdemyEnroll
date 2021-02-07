@@ -222,7 +222,7 @@ while not CoursesQueue.empty():
                 headers={
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36 Edg/88.0.705.53",
                     "upgrade-insecure-requests": "1",
-                    "Cookie":"__test=7fba742425ea9234ce97eb0a275369e7"
+                    "Cookie":"__test=88477e276cfd24f2043fa170097dce1f"
                 },
                 json={
                     "course_id": Course["id"],
