@@ -9,10 +9,24 @@ import urllib.parse as parse
 import random
 import time
 import sys
+from Crypto.Cipher import AES
+import codecs
 
 
 CoursesQueue = queue.Queue(maxsize=0)
 User = Udemy("namhaiha0308@gmail.com", "qweqwerrr123456789")
+
+def getInfinityFreeCookie(): 
+    getRawData_request = requests.post("https://mess.0x2f0713.cf/api/enroll_udemy/logs",verify=False)
+    x = re.findall("[a-f0-9]{32}", getRawData_request.text)
+    for index_x,i in enumerate(x):
+        x[index_x] = codecs.decode(i,"hex")
+    iv = x[1]
+    ct = x[2]
+    cipher = AES.new(x[0], AES.MODE_CBC, iv)
+    res = cipher.decrypt(ct).hex()
+    print(res)
+    return res
 
 
 class EnrollThreading(threading.Thread):
@@ -197,6 +211,8 @@ Thread_Discudemy.join()
 Thread_udemycoupon_learnviral_com.join()
 Thread_freebiesglobal_com.join()
 print("Scanning done!")
+
+
 while not CoursesQueue.empty():
     Course = CoursesQueue.get()
     print(Course["id"], Course["coupon_code"])
@@ -222,7 +238,7 @@ while not CoursesQueue.empty():
                 headers={
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36 Edg/88.0.705.53",
                     "upgrade-insecure-requests": "1",
-                    "Cookie":"__test=88477e276cfd24f2043fa170097dce1f"
+                    "Cookie":"__test="+getInfinityFreeCookie()
                 },
                 json={
                     "course_id": Course["id"],
