@@ -199,7 +199,7 @@ class freebiesglobal_com(EnrollThreading):
             t_page.start()
             t_page.join()
 
-
+res_cookie = getInfinityFreeCookie()
 Thread_Discudemy = discudemy(CoursesQueue, User)
 Thread_Discudemy.start()
 Thread_udemycoupon_learnviral_com = udemycoupon_learnviral_com(CoursesQueue, User)
@@ -238,7 +238,7 @@ while not CoursesQueue.empty():
                 headers={
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36 Edg/88.0.705.53",
                     "upgrade-insecure-requests": "1",
-                    "Cookie":"__test="+getInfinityFreeCookie()
+                    "Cookie":"__test="+res_cookie
                 },
                 json={
                     "course_id": Course["id"],
