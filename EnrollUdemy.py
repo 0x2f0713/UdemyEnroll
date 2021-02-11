@@ -18,6 +18,7 @@ User = Udemy("namhaiha0308@gmail.com", "qweqwerrr123456789")
 
 def getInfinityFreeCookie(): 
     getRawData_request = requests.post("https://mess.0x2f0713.cf/api/enroll_udemy/logs",verify=False)
+    print(getRawData_request.text)
     x = re.findall("[a-f0-9]{32}", getRawData_request.text)
     for index_x,i in enumerate(x):
         x[index_x] = codecs.decode(i,"hex")
