@@ -263,4 +263,3 @@ while not CoursesQueue.empty():
         print(
             f"The '{Course['title']}' has been already enrolled. ID: {Course['id']}. Task left: {CoursesQueue.qsize()}"
         )
-
