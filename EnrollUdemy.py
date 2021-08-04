@@ -40,7 +40,7 @@ class EnrollThreading(threading.Thread):
         self.queue = queue
         self.Udemy = user
         self.begin = 1
-        self.end = 10
+        self.end = 120
 
     def writeProgress(self):
         sys.stdout.write(
@@ -252,7 +252,7 @@ while not CoursesQueue.empty():
                     "free": Course["coupon_code"] == "",
                 },
             )
-        print(Enrollment["tra"])
+        print(Enrollment)
         for x in range(1, random.randint(10, 20)):
             sys.stdout.write("\rPausing: %s" % str(x))
             sys.stdout.flush()
