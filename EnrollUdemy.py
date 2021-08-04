@@ -252,8 +252,7 @@ while not CoursesQueue.empty():
                     "free": Course["coupon_code"] == "",
                 },
             )
-        else:
-            print(Enrollment)
+        print(Enrollment["tra"])
         for x in range(1, random.randint(10, 20)):
             sys.stdout.write("\rPausing: %s" % str(x))
             sys.stdout.flush()

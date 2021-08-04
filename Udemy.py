@@ -193,8 +193,7 @@ class Udemy:
             return dict(id=id, success=False, status_code=Enrollment.status_code, error=json.loads(Enrollment.text))
 
     def enrollPaidCourseWithCouponVersion2(self, id, coupon_code):
-        Enrollment = requests.post('https://www.udemy.com/payment/checkout-submit/', json={"checkout_environment": "Marketplace","checkout_event":"Submit","shopping_cart":{"items":[{"discountInfo":{"code":coupon_code},"purchasePrice":{"amount":0,"currency":"USD","price_string":"Free","currency_symbol":"$"},"buyableType":"course","buyableId":id,"buyableContext":{}}],"is_cart":False},"payment_info":{"payment_vendor":"Free","payment_method":"free-method"},"tax_info":{"is_tax_enabled":True,"tax_rate":0,"billing_location":{"country_code":"VN","secondary_location_info":None},"currency_code":"usd","transaction_items":[{"tax_amount":0,"tax_included_amount":0,"tax_excluded_amount":0,"udemy_txn_item_reference":f"course-{id}"}],"tax_breakdown_type":"tax_inclusive"}
-        }, cookies=self.cookies, headers={
+        Enrollment = requests.post('https://www.udemy.com/payment/checkout-submit/', json={"checkout_environment":"Marketplace","checkout_event":"Submit","shopping_info":{"items":[{"discountInfo":{"code":coupon_code},"buyable":{"type":"course","id":id,"context":{}},"price":{"amount":0,"currency":"USD"}}],"is_cart":False},"payment_info":{"method_id":"","payment_vendor":"Free","payment_method":"free-method"},"tax_info":{"tax_rate":0,"billing_location":{"country_code":"VN"},"currency_code":"usd","transaction_items":[{"udemy_txn_item_reference":f"course-{id}","tax_excluded_amount":0,"tax_included_amount":0,"tax_amount":0}],"tax_breakdown_type":"tax_inclusive"}}, cookies=self.cookies, headers={
             'accept':'application/json, text/plain, */*',
             'authorization': self.Bearer,
             'content-type':'application/json;charset=UTF-8',
@@ -213,7 +212,7 @@ class Udemy:
         })
         self.updateCookie(Enrollment.cookies)
         if Enrollment.status_code == 200:
-            return dict(id=id, success=True, status_code=200, transaction_id=json.loads(Enrollment.text))
+            return dict(id=id, success=True, status_code=200, transaction_id=Enrollment.text)
         else:
             return dict(id=id, success=False, status_code=Enrollment.status_code, error=json.loads(Enrollment.text))
 
