@@ -40,11 +40,7 @@ class EnrollThreading(threading.Thread):
         self.queue = queue
         self.Udemy = user
         self.begin = 1
-<<<<<<< HEAD
-        self.end = 2
-=======
         self.end = 10
->>>>>>> 205f34182d7df529761ac57580403eea2bbdb29c
 
     def writeProgress(self):
         sys.stdout.write(
